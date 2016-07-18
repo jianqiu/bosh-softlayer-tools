@@ -11,6 +11,7 @@ set_up_bm_private_key() {
 }
 
 export build_num=$(cat stemcell-version/number | sed 's/\.0$//;s/\.0$//')
+export fsa_num=`cat fsa-version-semver/number`
 
 set_up_bm_private_key
 
@@ -23,6 +24,6 @@ sed -i "s/%%bm_root_password%%/${bm_root_password}/g" scripts/make-fsa-on-bareme
 scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no scripts/make-fsa-on-baremetal.sh root@${bm_sjc01}:/tmp
 popd
 
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@${bm_sjc01} "mkdir -p /tmp/bm_stemcell; export build_num=${build_num}; mv /tmp/make-fsa-on-baremetal.sh /tmp/bm_stemcell/; chmod +x /tmp/bm_stemcell/make-fsa-on-baremetal.sh; /tmp/bm_stemcell/make-fsa-on-baremetal.sh"
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@${bm_sjc01} "mkdir -p /tmp/bm_stemcell; export build_num=${fsa_num}; mv /tmp/make-fsa-on-baremetal.sh /tmp/bm_stemcell/; chmod +x /tmp/bm_stemcell/make-fsa-on-baremetal.sh; /tmp/bm_stemcell/make-fsa-on-baremetal.sh"
 scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@${bm_sjc01}:/fsarchiver/*.fsa build/
 

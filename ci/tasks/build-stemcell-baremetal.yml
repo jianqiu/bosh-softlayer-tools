@@ -4,6 +4,7 @@ image: docker:///cloudfoundry/bosh-lite-ci
 inputs:
   - name: bosh-src
   - name: stemcell-version
+  - name: fsa-version-semver
   - name: bosh-softlayer-tools
 outputs:
   - name: build

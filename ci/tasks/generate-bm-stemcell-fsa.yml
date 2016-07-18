@@ -3,6 +3,7 @@ platform: linux
 image: docker:///cloudfoundry/bosh-lite-ci
 inputs:
   - name: stemcell-version
+  - name: fsa-version-semver
   - name: bosh-softlayer-tools
   - name: stemcell-ubuntu-trusty-raw
 outputs:

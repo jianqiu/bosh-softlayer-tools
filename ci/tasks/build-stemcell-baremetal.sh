@@ -24,6 +24,8 @@ get_ip_from_vagrant_ssh_config() {
 
 build_num=$(cat stemcell-version/number | sed 's/\.0$//;s/\.0$//')
 
+fsa_num=`cat fsa-version-semver/number`
+
 pushd bosh-src
 
 bundle
@@ -37,7 +39,7 @@ vagrant up remote --provider=aws
 vagrant ssh -c "
   cd /bosh
   bundle
-  export CANDIDATE_BUILD_NUMBER=$build_num
+  export CANDIDATE_BUILD_NUMBER=$fsa_num
   export BOSH_MICRO_ENABLED=no
   bundle exec rake stemcell:build[$IAAS,$HYPERVISOR,$OS_NAME,$OS_VERSION,go,bosh-os-images,bosh-$OS_NAME-$OS_VERSION-os-image.tgz]
 " remote
@@ -46,6 +48,5 @@ builder_ip=$(get_ip_from_vagrant_ssh_config)
 
 popd
 
-ssh ubuntu@${builder_ip} "sudo chroot /mnt/stemcells/softlayer/esxi/ubuntu/work/work/chroot touch /bosh-stemcell-${build_num}-softlayer-esxi-ubuntu-trusty-raw.tgz; sudo chroot /mnt/stemcells/softlayer/esxi/ubuntu/work/work/chroot tar zcvf /bosh-stemcell-${build_num}-softlayer-esxi-ubuntu-trusty-raw.tgz . --exclude proc --exclude dev; sudo mv /mnt/stemcells/softlayer/esxi/ubuntu/work/work/chroot/*.tgz /bosh/tmp"
+ssh ubuntu@${builder_ip} "sudo chroot /mnt/stemcells/softlayer/esxi/ubuntu/work/work/chroot touch /bosh-stemcell-${fsa_num}-softlayer-esxi-ubuntu-trusty-raw.tgz; sudo chroot /mnt/stemcells/softlayer/esxi/ubuntu/work/work/chroot tar zcvf /bosh-stemcell-${fsa_num}-softlayer-esxi-ubuntu-trusty-raw.tgz . --exclude proc --exclude dev; sudo mv /mnt/stemcells/softlayer/esxi/ubuntu/work/work/chroot/*.tgz /bosh/tmp"
 scp ubuntu@${builder_ip}:/bosh/tmp/*-raw.tgz build/
-
