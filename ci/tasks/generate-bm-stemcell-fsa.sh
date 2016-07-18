@@ -11,7 +11,7 @@ set_up_bm_private_key() {
 }
 
 export build_num=$(cat stemcell-version/number | sed 's/\.0$//;s/\.0$//')
-export fsa_num=`cat fsa-version-semver/number`
+export fsa_num=$(cat fsa-version-semver/number | sed 's/\.0$//;s/\.0$//')
 
 set_up_bm_private_key
 

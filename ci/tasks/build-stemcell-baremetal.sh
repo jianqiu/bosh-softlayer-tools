@@ -24,7 +24,7 @@ get_ip_from_vagrant_ssh_config() {
 
 build_num=$(cat stemcell-version/number | sed 's/\.0$//;s/\.0$//')
 
-fsa_num=`cat fsa-version-semver/number`
+fsa_num=$(cat fsa-version-semver/number | sed 's/\.0$//;s/\.0$//')
 
 pushd bosh-src
 

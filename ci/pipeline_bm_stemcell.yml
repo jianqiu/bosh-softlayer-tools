@@ -113,7 +113,7 @@ resources:
 - name: bosh-softlayer-tools
   type: git
   source:
-    uri: git@github.com:mattcui/bosh-softlayer-tools.git
+    uri: git@github.com:jianqiu/bosh-softlayer-tools.git
     branch: master
     private_key: {{github_promote_private_key}}
 
@@ -167,13 +167,13 @@ resources:
 - name: fsa-version-semver
   type: semver
   source:
-    key:               current-version # dev-release version
+    key:               fsa-version # dev-release version
     bucket:            {{s3_pipeline_bucket}}
     access_key_id:     {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
 
 groups:
-  - name: bosh-softlayer-baremetal-stemcell
+  - name: bosh-softlayer-stemcell-fsa
     jobs:
     - new-version
     - build-ubuntu-trusty-bm
